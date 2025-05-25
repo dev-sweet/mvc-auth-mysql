@@ -1,9 +1,13 @@
-const express = require('express');
-const {  createUser, loginUser } = require('../controllers/authControllers');
+const express = require("express");
+const { createUser, loginUser } = require("../controllers/authControllers");
+const verifyToken = require("../middlewears/verifyToken");
 const router = express.Router();
 
-// router.post('/login',loginUser)
-router.post('/register',createUser);
-router.post('/login',loginUser);
+router.post("/register", createUser);
+router.post("/login", loginUser);
 
-module.exports=router;
+router.get("/verifyUser", verifyToken, (req, res) => {
+  console.log(req.decoded);
+  res.status(200).json({ message: "User is verified!", user: req.decoded });
+});
+module.exports = router;
